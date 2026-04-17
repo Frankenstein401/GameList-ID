@@ -14,47 +14,22 @@
         <input type="password" id="password" name="password"> <br>
         <button type="submit">Kirim</button>
     </form>
-
-    {{-- <script>
-        const form = document.getElementById('form');
-        form.addEventListener("submit", (e) => {
-            e.preventDefault()
-            fetch("http://localhost:8000/api/v1/login", {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        username: document.getElementById('username').value,
-                        password: document.getElementById('password').value
-                    })
-                })
-                .then((res) => res.json())
-                .then((data) => {
-                    localStorage.setItem('accessToken', data.accessToken)
-                    console.log(data)
-                })
-        })
-    </script> --}}
-
+</body>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        const axios = require ('axios');
 
-        // Make a request for a user with a given ID
-        axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                // handle error
-                console.log(error);
-            })
-            .finally(function() {
-                // always executed
-            });
-    </script>
-</body>
+        // NOTE: Functions
+        const handleLogin = (event) => {
+            event.preventDefault();
+            axios.post(`{{env("APP_URL")}}:{{env("APP_PORT", "8000")}}/api/v1/login`, document.getElementById("form"))
+        }
+
+
+        // NOTE: Event Handler
+        document
+            .getElementById("form")
+            .addEventListener("submit", handleLogin)
+
+</script>
 
 </html>

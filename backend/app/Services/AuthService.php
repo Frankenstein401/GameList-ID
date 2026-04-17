@@ -50,7 +50,8 @@ class AuthService
         try {
             $user = User::where('username', $username)->first();
 
-            if (!Hash::check($password, $user->password) && $username != $user->username) {
+            // NOTE: Add more error handling just in case username doesn't exist
+            if (!$user || !Hash::check($password, $user->password) && $username != $user->username) {
                 return [
                     'status' => 'error',
                     'message' => 'Username or password inccorect'
@@ -82,7 +83,7 @@ class AuthService
     public function logout()
     {
         try {
-             /**
+            /**
              * @var Tymon\JWTAuth\JWTGuard $auth
              */
 
@@ -93,7 +94,6 @@ class AuthService
                 'status' => 'success',
                 'message' => 'Logout successful'
             ];
-
         } catch (Exception $e) {
             return [
                 'status' => 'error',
@@ -105,7 +105,7 @@ class AuthService
     public function refresh()
     {
         try {
-             /**
+            /**
              * @var Tymon\JWTAuth\JWTGuard $auth
              */
 
@@ -116,7 +116,6 @@ class AuthService
                 'status' => 'success',
                 'message' => 'Refresh token successful'
             ];
-
         } catch (Exception $e) {
             return [
                 'status' => 'error',
